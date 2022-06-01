@@ -10,6 +10,7 @@ bot = commands.Bot(intents=intents)
 async def on_ready():
     print("The bot is ready!")
 
+
 @bot.event
 async def on_member_join(member):
     general_channel = bot.get_channel(980735769595510816)
