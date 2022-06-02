@@ -1,7 +1,5 @@
 import disnake
 from disnake.ext import commands
-import discord
-from discord.ext import commands
 
 intents = disnake.Intents.all()
 
@@ -21,5 +19,5 @@ async def on_member_join(member):
 
 @bot.event
 async def on_member_remove(member):
-    channel = discord.utils.get(member.guild.channels, name="general")
+    channel = disnake.utils.get(member.guild.channels, name="general")
     await channel.send(f"Au revoir {member.display_name} !")
