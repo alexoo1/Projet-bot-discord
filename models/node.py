@@ -5,18 +5,20 @@ from typing import Callable, List, Optional
 class Node:  # create a class Node
     def __init__(self, callback: Optional[Callable] = None, name: Optional[str] = None):  # initialize the Node with a callback and a name
         self.children: List[Node] = []
+        self.parent: Optional[Node] = None
         self.callback: Optional[Callable] = callback
         self.name: Optional[str] = name
 
-    def run(self, *args, **kwargs):
+    async def run(self, *args, **kwargs):
         if self.callback:  # check that the callback is defined
-            self.callback(*args, **kwargs)  # run the callback
+            await self.callback(*args, **kwargs)  # run the callback
 
     def add_child(self, child: Node):
+        child.parent = self  # set the child's parent to the current node
         self.children.append(child)  # add a child to the Node (like a tree)
 
-    def __call__(self, *args, **kwargs):
-        self.run(*args, **kwargs)  # make possible to use a Node instance as a function (node = Node(); node())
+    async def __call__(self, *args, **kwargs):
+        await self.run(*args, **kwargs)  # make possible to use a Node instance as a function (node = Node(); node())
 
     def __getattr__(self, item):
         return next((child for child in self.children if child.name == item), None)  # return the first child found by name
