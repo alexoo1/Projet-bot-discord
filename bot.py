@@ -15,3 +15,9 @@ async def on_ready():
 async def on_member_join(member):
     general_channel = bot.get_channel(979421769284878408)
     await general_channel.send(f"Bienvenue sur le serveur {member.display_name} !")
+
+
+@bot.event
+async def on_member_remove(member):
+    channel = disnake.utils.get(member.guild.channels, name="general")
+    await channel.send(f"Au revoir {member.display_name} !")
